@@ -1,0 +1,204 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fresh Market Kitchen</title>
+  <style>
+    :root {
+      --bg: #f6f7ef;
+      --ink: #17211b;
+      --muted: #5d6b62;
+      --cream: #fffdf5;
+      --leaf: #2f7d4f;
+      --tomato: #e34d37;
+      --sun: #f2b84b;
+      --blue: #477ca8;
+      --line: rgba(23, 33, 27, 0.14);
+      --shadow: 0 22px 60px rgba(23, 33, 27, 0.16);
+      --radius: 8px;
+      --max: 1160px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--ink); font-family: Inter, Arial, sans-serif; line-height: 1.6; }
+    a { color: inherit; text-decoration: none; }
+    img { display: block; width: 100%; height: 100%; object-fit: cover; }
+    .wrap { width: min(100% - 36px, var(--max)); margin: 0 auto; }
+
+    .topbar { position: sticky; top: 0; z-index: 10; background: rgba(246, 247, 239, 0.88); border-bottom: 1px solid var(--line); backdrop-filter: blur(14px); }
+    .nav { min-height: 74px; display: flex; align-items: center; justify-content: space-between; gap: 18px; }
+    .logo { font-size: 1.08rem; font-weight: 900; text-transform: uppercase; letter-spacing: 0; }
+    .links { display: flex; align-items: center; gap: 22px; color: var(--muted); font-size: 0.94rem; font-weight: 800; }
+    .links a:hover { color: var(--leaf); }
+    .button { display: inline-flex; align-items: center; justify-content: center; min-height: 46px; padding: 0 18px; border-radius: var(--radius); background: var(--tomato); color: white; font-weight: 900; box-shadow: 0 12px 28px rgba(227, 77, 55, 0.22); }
+    .button.light { background: var(--cream); color: var(--ink); border: 1px solid var(--line); box-shadow: none; }
+    .nav-actions { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
+
+    .hero { min-height: calc(100vh - 74px); display: grid; grid-template-columns: 0.95fr 1.05fr; gap: 26px; align-items: center; padding: 38px 0 54px; }
+    .hero-copy { padding-right: 12px; }
+    .kicker { color: var(--leaf); font-size: 0.78rem; font-weight: 900; letter-spacing: 0; text-transform: uppercase; }
+    h1 { max-width: 720px; margin: 12px 0 20px; font-size: clamp(3.1rem, 7vw, 6.8rem); line-height: 0.9; letter-spacing: 0; }
+    .hero-copy p:not(.kicker) { max-width: 590px; color: var(--muted); font-size: 1.09rem; margin-bottom: 28px; }
+    .actions { display: flex; flex-wrap: wrap; gap: 12px; }
+
+    .photo-grid { display: grid; grid-template-columns: 1fr 0.72fr; grid-template-rows: 330px 230px; gap: 14px; }
+    .photo { position: relative; overflow: hidden; border-radius: var(--radius); border: 1px solid var(--line); background: var(--cream); box-shadow: var(--shadow); }
+    .photo:first-child { grid-row: span 2; }
+    .photo span { position: absolute; left: 14px; bottom: 14px; padding: 7px 10px; border-radius: var(--radius); background: rgba(255, 253, 245, 0.9); color: var(--ink); font-size: 0.78rem; font-weight: 900; text-transform: uppercase; }
+
+    section { padding: 74px 0; }
+    .section-head { display: flex; justify-content: space-between; gap: 28px; margin-bottom: 28px; }
+    h2 { font-size: clamp(2rem, 4vw, 4.1rem); line-height: 1; letter-spacing: 0; }
+    .section-head p { max-width: 430px; color: var(--muted); }
+
+    .menu { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    .card { min-height: 250px; padding: 24px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--cream); box-shadow: 0 14px 36px rgba(23, 33, 27, 0.08); }
+    .card img { height: 150px; margin: -10px -10px 18px; width: calc(100% + 20px); border-radius: var(--radius); }
+    .price { color: var(--tomato); font-weight: 900; }
+    .card h3 { margin: 10px 0 8px; font-size: 1.28rem; }
+    .card p, .card li { color: var(--muted); }
+    .label { display: inline-block; margin-top: 16px; padding: 5px 10px; border-radius: var(--radius); background: rgba(47, 125, 79, 0.12); color: var(--leaf); font-size: 0.78rem; font-weight: 900; text-transform: uppercase; }
+
+    .story { display: grid; grid-template-columns: 0.9fr 1.1fr; gap: 18px; align-items: stretch; }
+    .story-photo { min-height: 430px; overflow: hidden; border-radius: var(--radius); border: 1px solid var(--line); box-shadow: var(--shadow); }
+    .story-card { padding: clamp(28px, 5vw, 48px); border-radius: var(--radius); background: #193528; color: white; }
+    .story-card p { margin-top: 16px; color: rgba(255, 255, 255, 0.76); }
+    .features { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 28px; }
+    .features div { padding: 16px; border-radius: var(--radius); background: rgba(255, 255, 255, 0.1); }
+    .features strong { display: block; color: var(--sun); font-size: 1.6rem; line-height: 1; }
+    .features span { display: block; margin-top: 8px; color: rgba(255, 255, 255, 0.78); font-size: 0.9rem; }
+
+    .info-grid { display: grid; grid-template-columns: 0.9fr 1.1fr; gap: 16px; }
+    .hours ul, .contact ul { display: grid; gap: 12px; margin-top: 18px; list-style: none; }
+    .hours li, .contact li { display: flex; justify-content: space-between; gap: 16px; padding-bottom: 12px; border-bottom: 1px solid var(--line); }
+    .map { min-height: 290px; margin-top: 20px; border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; }
+    .map img { filter: saturate(1.1); }
+
+    .order-strip { display: flex; align-items: center; justify-content: space-between; gap: 22px; padding: 30px; border-radius: var(--radius); background: var(--sun); color: #17211b; }
+    .order-strip h2 { font-size: clamp(2rem, 4vw, 3.4rem); }
+    .order-strip .button { background: #17211b; color: white; box-shadow: none; flex-shrink: 0; }
+    .footer { padding: 28px 0; border-top: 1px solid var(--line); color: var(--muted); text-align: center; }
+
+    @media (max-width: 900px) {
+      .hero, .menu, .story, .info-grid, .section-head { grid-template-columns: 1fr; display: grid; }
+      .links { display: none; }
+      .nav { align-items: flex-start; padding: 14px 0; flex-direction: column; }
+      .nav-actions { width: 100%; display: grid; grid-template-columns: 1fr 1fr; }
+      .photo-grid { grid-template-rows: 330px 210px 210px; grid-template-columns: 1fr; }
+      .photo:first-child { grid-row: auto; }
+      .features { grid-template-columns: 1fr; }
+      .order-strip { align-items: flex-start; flex-direction: column; }
+    }
+
+    @media (max-width: 560px) {
+      .wrap { width: min(100% - 28px, var(--max)); }
+      .hero { padding-top: 28px; }
+      .actions, .button { width: 100%; }
+      .card img { height: 180px; }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <nav class="nav wrap">
+      <a class="logo" href="../../index.html">Fresh Market Kitchen</a>
+      <div class="links">
+        <a href="#menu">Menu</a>
+        <a href="#story">Story</a>
+        <a href="#hours">Hours</a>
+        <a href="#location">Location</a>
+      </div>
+      <div class="nav-actions">
+        <a class="button light" href="../../index.html">Portfolio</a>
+        <a class="button" href="tel:+420777123456">Call now</a>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero wrap">
+      <div class="hero-copy">
+        <p class="kicker">Fresh bowls / grilled plates / homemade drinks</p>
+        <h1>Food that looks alive before you taste it.</h1>
+        <p>A bright market kitchen with fresh bowls, grilled plates, homemade drinks and quick pickup for lunch or dinner.</p>
+        <div class="actions">
+          <a class="button" href="#menu">See menu</a>
+          <a class="button light" href="#location">Find location</a>
+        </div>
+      </div>
+      <div class="photo-grid" aria-label="Food photography collage">
+        <div class="photo"><img src="https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?auto=format&fit=crop&w=1000&q=80" alt="Colorful salad bowl with vegetables" /><span>Seasonal bowls</span></div>
+        <div class="photo"><img src="https://images.unsplash.com/photo-1550547660-d9450f859349?auto=format&fit=crop&w=700&q=80" alt="Fresh burger and fries" /><span>Grill</span></div>
+        <div class="photo"><img src="https://images.unsplash.com/photo-1523371054106-bbf80586c38c?auto=format&fit=crop&w=700&q=80" alt="Table with shared food" /><span>Share plates</span></div>
+      </div>
+    </section>
+
+    <section class="wrap" id="menu">
+      <div class="section-head">
+        <h2>Colorful daily menu</h2>
+        <p>Fresh items, clear pricing and colorful photos make the menu feel like a real lunch board.</p>
+      </div>
+      <div class="menu">
+        <article class="card"><img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=700&q=80" alt="Vegetable bowl" /><span class="price">159 Kc</span><h3>Garden Power Bowl</h3><p>Rice, roasted vegetables, greens, sesame and lime dressing.</p><span class="label">Fresh</span></article>
+        <article class="card"><img src="https://images.unsplash.com/photo-1551782450-a2132b4ba21d?auto=format&fit=crop&w=700&q=80" alt="Burger with fries" /><span class="price">189 Kc</span><h3>Market Burger</h3><p>Beef, cheddar, pickles, tomato relish and crispy fries.</p><span class="label">Popular</span></article>
+        <article class="card"><img src="https://images.unsplash.com/photo-1565299507177-b0ac66763828?auto=format&fit=crop&w=700&q=80" alt="Wrap sandwich" /><span class="price">139 Kc</span><h3>Green Wrap</h3><p>Grilled vegetables, hummus, herbs, salad and lemon sauce.</p><span class="label">Vegetarian</span></article>
+        <article class="card"><img src="https://images.unsplash.com/photo-1600891964599-f61ba0e24092?auto=format&fit=crop&w=700&q=80" alt="Prepared dinner plate" /><span class="price">179 Kc</span><h3>Chicken Plate</h3><p>Grilled chicken, potatoes, seasonal salad and herb dip.</p><span class="label">Dinner</span></article>
+        <article class="card"><img src="https://images.unsplash.com/photo-1541592106381-b31e9677c0e5?auto=format&fit=crop&w=700&q=80" alt="Fries with sauce" /><span class="price">89 Kc</span><h3>Loaded Fries</h3><p>Fries with cheese sauce, herbs, crispy onion and tomato salsa.</p><span class="label">Side</span></article>
+        <article class="card"><img src="https://images.unsplash.com/photo-1497534446932-c925b458314e?auto=format&fit=crop&w=700&q=80" alt="Fresh lemonade drinks" /><span class="price">69 Kc</span><h3>House Lemonade</h3><p>Lemon, mint, ice, berries and sparkling water.</p><span class="label">Drink</span></article>
+      </div>
+    </section>
+
+    <section class="wrap story" id="story">
+      <div class="story-photo"><img src="https://images.unsplash.com/photo-1552566626-52f8b828add9?auto=format&fit=crop&w=1000&q=80" alt="Restaurant interior with tables" /></div>
+      <article class="story-card">
+        <p class="kicker">Made for everyday lunch</p>
+        <h2>Warm, bright and easy to scan.</h2>
+        <p>This bistro keeps the offer simple: good ingredients, fast pickup, bright plates and a place that feels warm instead of boring.</p>
+        <div class="features">
+          <div><strong>20</strong><span>minute pickup</span></div>
+          <div><strong>6</strong><span>fresh menu blocks</span></div>
+          <div><strong>Fresh</strong><span>local produce</span></div>
+        </div>
+      </article>
+    </section>
+
+    <section class="wrap" id="order">
+      <div class="order-strip">
+        <div><p class="kicker">Takeaway ready</p><h2>Order ahead and pick up after school or work.</h2></div>
+        <a class="button" href="tel:+420777123456">+420 777 123 456</a>
+      </div>
+    </section>
+
+    <section class="wrap info-grid" id="hours">
+      <article class="card hours">
+        <span class="price">Opening hours</span>
+        <h3>Open six days a week</h3>
+        <ul>
+          <li><span>Monday - Thursday</span><strong>10:30 - 21:00</strong></li>
+          <li><span>Friday</span><strong>10:30 - 23:00</strong></li>
+          <li><span>Saturday</span><strong>11:00 - 23:00</strong></li>
+          <li><span>Sunday</span><strong>Closed</strong></li>
+        </ul>
+      </article>
+      <article class="card contact" id="location">
+        <span class="price">Fictional location</span>
+        <h3>Fresh Market Kitchen</h3>
+        <p>Market Street 8, 760 01 Zlin, Czech Republic</p>
+        <ul>
+          <li><span>Email</span><strong>hello@freshmarket.example</strong></li>
+          <li><span>Phone</span><strong>+420 777 123 456</strong></li>
+        </ul>
+        <div class="map"><img src="https://images.unsplash.com/photo-1524661135-423995f22d0b?auto=format&fit=crop&w=1000&q=80" alt="City map and travel planning table" /></div>
+      </article>
+    </section>
+  </main>
+
+  <footer class="footer wrap">Fresh Market Kitchen | Fictional student bistro menu</footer>
+</body>
+</html>
+
+
+
+

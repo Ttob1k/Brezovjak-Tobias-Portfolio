@@ -1,0 +1,220 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nordic Lens Studio</title>
+  <style>
+    :root {
+      --paper: #f4f0e8;
+      --ink: #101820;
+      --muted: #67727a;
+      --mist: #dfe8e6;
+      --white: #fffdf8;
+      --forest: #20453d;
+      --clay: #bc6c45;
+      --sky: #7599ad;
+      --charcoal: #1f252b;
+      --line: rgba(16, 24, 32, 0.14);
+      --shadow: 0 24px 70px rgba(16, 24, 32, 0.16);
+      --radius: 8px;
+      --max: 1160px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { background: var(--paper); color: var(--ink); font-family: Arial, Helvetica, sans-serif; line-height: 1.62; }
+    a { color: inherit; text-decoration: none; }
+    img { display: block; width: 100%; height: 100%; object-fit: cover; }
+    .wrap { width: min(100% - 36px, var(--max)); margin: 0 auto; }
+
+    .topbar { position: sticky; top: 0; z-index: 10; background: rgba(244, 240, 232, 0.9); border-bottom: 1px solid var(--line); backdrop-filter: blur(14px); }
+    .nav { min-height: 76px; display: flex; align-items: center; justify-content: space-between; gap: 18px; }
+    .brand { font-weight: 900; letter-spacing: 0; text-transform: uppercase; }
+    .links { display: flex; align-items: center; gap: 22px; color: var(--muted); font-size: 0.94rem; font-weight: 800; }
+    .links a:hover { color: var(--forest); }
+    .nav-actions { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
+    .button { display: inline-flex; align-items: center; justify-content: center; min-height: 46px; padding: 0 18px; border-radius: var(--radius); background: var(--forest); color: white; font-weight: 900; }
+    .button.light { background: var(--white); color: var(--ink); border: 1px solid var(--line); }
+
+    .hero { min-height: calc(100vh - 76px); display: grid; grid-template-columns: 0.86fr 1.14fr; gap: 26px; align-items: center; padding: 38px 0 58px; }
+    .kicker { color: var(--clay); font-size: 0.78rem; font-weight: 900; letter-spacing: 0; text-transform: uppercase; }
+    h1 { max-width: 720px; margin: 12px 0 22px; font-family: Georgia, "Times New Roman", serif; font-size: clamp(3.1rem, 7vw, 6.7rem); line-height: 0.92; letter-spacing: 0; }
+    .hero-copy p:not(.kicker) { max-width: 570px; color: var(--muted); font-size: 1.08rem; margin-bottom: 28px; }
+    .actions { display: flex; flex-wrap: wrap; gap: 12px; }
+
+    .hero-board { display: grid; grid-template-columns: 0.78fr 1fr; grid-template-rows: 240px 270px; gap: 14px; }
+    .frame { position: relative; overflow: hidden; border-radius: var(--radius); border: 1px solid var(--line); background: var(--mist); box-shadow: var(--shadow); }
+    .frame.large { grid-row: span 2; }
+    .frame.caption::after { content: attr(data-label); position: absolute; left: 14px; bottom: 14px; padding: 7px 10px; border-radius: var(--radius); background: rgba(255, 253, 248, 0.92); color: var(--ink); font-size: 0.78rem; font-weight: 900; text-transform: uppercase; }
+
+    section { padding: 76px 0; }
+    .section-head { display: flex; justify-content: space-between; gap: 28px; margin-bottom: 28px; }
+    h2 { font-family: Georgia, "Times New Roman", serif; font-size: clamp(2.2rem, 4.5vw, 4.4rem); line-height: 1; letter-spacing: 0; }
+    .section-head p { max-width: 450px; color: var(--muted); }
+
+    .services { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    .card { min-height: 260px; padding: 24px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--white); box-shadow: 0 14px 36px rgba(16, 24, 32, 0.08); }
+    .card img { height: 165px; margin: -10px -10px 18px; width: calc(100% + 20px); border-radius: var(--radius); }
+    .price { color: var(--clay); font-weight: 900; }
+    .card h3 { margin: 10px 0 8px; font-size: 1.28rem; }
+    .card p, .card li { color: var(--muted); }
+    .tag { display: inline-block; margin-top: 16px; padding: 5px 10px; border-radius: var(--radius); background: rgba(117, 153, 173, 0.18); color: #355e75; font-size: 0.78rem; font-weight: 900; text-transform: uppercase; }
+
+    .portfolio-strip { background: var(--charcoal); color: white; }
+    .portfolio-strip .section-head p { color: rgba(255, 255, 255, 0.7); }
+    .gallery { display: grid; grid-template-columns: 1.2fr 0.8fr 1fr; grid-auto-rows: 230px; gap: 14px; }
+    .gallery .shot { overflow: hidden; border-radius: var(--radius); border: 1px solid rgba(255, 255, 255, 0.16); }
+    .gallery .shot.tall { grid-row: span 2; }
+    .gallery .shot.wide { grid-column: span 2; }
+
+    .process { display: grid; grid-template-columns: 0.95fr 1.05fr; gap: 18px; align-items: stretch; }
+    .process-photo { min-height: 450px; overflow: hidden; border-radius: var(--radius); border: 1px solid var(--line); box-shadow: var(--shadow); }
+    .process-card { padding: clamp(28px, 5vw, 48px); border-radius: var(--radius); background: var(--forest); color: white; }
+    .process-card p { margin-top: 16px; color: rgba(255, 255, 255, 0.76); }
+    .steps { display: grid; gap: 12px; margin-top: 28px; }
+    .steps div { display: grid; grid-template-columns: 42px 1fr; gap: 14px; align-items: start; padding: 16px; border-radius: var(--radius); background: rgba(255, 255, 255, 0.1); }
+    .steps strong { color: var(--clay); font-size: 1.2rem; }
+    .steps span { color: rgba(255, 255, 255, 0.78); }
+
+    .info-grid { display: grid; grid-template-columns: 0.9fr 1.1fr; gap: 16px; }
+    .hours ul, .contact ul { display: grid; gap: 12px; margin-top: 18px; list-style: none; }
+    .hours li, .contact li { display: flex; justify-content: space-between; gap: 16px; padding-bottom: 12px; border-bottom: 1px solid var(--line); }
+    .booking { display: flex; align-items: center; justify-content: space-between; gap: 22px; padding: 30px; border-radius: var(--radius); background: var(--sky); color: white; }
+    .booking h2 { font-size: clamp(2rem, 4vw, 3.5rem); }
+    .booking .button { background: var(--ink); color: white; flex-shrink: 0; }
+    .map-photo { min-height: 300px; margin-top: 20px; border-radius: var(--radius); overflow: hidden; border: 1px solid var(--line); }
+    .footer { padding: 28px 0; border-top: 1px solid var(--line); color: var(--muted); text-align: center; }
+
+    @media (max-width: 900px) {
+      .hero, .services, .process, .info-grid, .section-head { grid-template-columns: 1fr; display: grid; }
+      .links { display: none; }
+      .nav { align-items: flex-start; padding: 14px 0; flex-direction: column; }
+      .nav-actions { width: 100%; display: grid; grid-template-columns: 1fr 1fr; }
+      .hero-board { grid-template-columns: 1fr; grid-template-rows: 330px 210px 210px; }
+      .frame.large { grid-row: auto; }
+      .gallery { grid-template-columns: 1fr; grid-auto-rows: 260px; }
+      .gallery .shot.tall, .gallery .shot.wide { grid-row: auto; grid-column: auto; }
+      .booking { align-items: flex-start; flex-direction: column; }
+    }
+
+    @media (max-width: 560px) {
+      .wrap { width: min(100% - 28px, var(--max)); }
+      .actions, .button { width: 100%; }
+      .card img { height: 190px; }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <nav class="nav wrap">
+      <a class="brand" href="../../index.html">Nordic Lens Studio</a>
+      <div class="links">
+        <a href="#services">Services</a>
+        <a href="#work">Work</a>
+        <a href="#process">Process</a>
+        <a href="#contact">Contact</a>
+      </div>
+      <div class="nav-actions">
+        <a class="button light" href="../../index.html">Portfolio</a>
+        <a class="button" href="mailto:hello@nordiclens.example">Book shoot</a>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero wrap">
+      <div class="hero-copy">
+        <p class="kicker">Portraits / products / brand stories</p>
+        <h1>Quiet photos with a sharp commercial edge.</h1>
+        <p>A fictional photography studio page with a completely different mood: editorial layout, real photography, calm colors and clear booking sections.</p>
+        <div class="actions">
+          <a class="button" href="#services">View services</a>
+          <a class="button light" href="#work">See work</a>
+        </div>
+      </div>
+      <div class="hero-board" aria-label="Photography studio image board">
+        <div class="frame large caption" data-label="Studio portrait"><img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=900&q=80" alt="Studio portrait of a man" /></div>
+        <div class="frame caption" data-label="Product light"><img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=800&q=80" alt="Watch product photo" /></div>
+        <div class="frame caption" data-label="Brand detail"><img src="https://images.unsplash.com/photo-1529139574466-a303027c1d8b?auto=format&fit=crop&w=800&q=80" alt="Fashion editorial portrait" /></div>
+      </div>
+    </section>
+
+    <section class="wrap" id="services">
+      <div class="section-head">
+        <h2>Studio services</h2>
+        <p>Enough detail to feel like a real client website: packages, prices, photos and a simple path to booking.</p>
+      </div>
+      <div class="services">
+        <article class="card"><img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=700&q=80" alt="Portrait session" /><span class="price">1 900 Kc</span><h3>Portrait Session</h3><p>Clean portraits for school, social profiles, CVs and personal branding.</p><span class="tag">90 minutes</span></article>
+        <article class="card"><img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=700&q=80" alt="Product headphones" /><span class="price">2 700 Kc</span><h3>Product Set</h3><p>Sharp product images for shops, menus, catalogues and launch posts.</p><span class="tag">12 edited shots</span></article>
+        <article class="card"><img src="https://images.unsplash.com/photo-1529139574466-a303027c1d8b?auto=format&fit=crop&w=700&q=80" alt="Fashion editorial shoot" /><span class="price">4 500 Kc</span><h3>Brand Story</h3><p>A half-day shoot for small brands that need a consistent visual set.</p><span class="tag">Campaign</span></article>
+        <article class="card"><img src="https://images.unsplash.com/photo-1516035069371-29a1b244cc32?auto=format&fit=crop&w=700&q=80" alt="Camera close up" /><span class="price">1 400 Kc</span><h3>Event Mini</h3><p>Short coverage for openings, school events, small meetups and workshops.</p><span class="tag">2 hours</span></article>
+        <article class="card"><img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=700&q=80" alt="Outdoor lifestyle scene" /><span class="price">2 200 Kc</span><h3>Lifestyle Shoot</h3><p>Natural photos outside the studio for creators, teams and local projects.</p><span class="tag">Outdoor</span></article>
+        <article class="card"><img src="https://images.unsplash.com/photo-1519608487953-e999c86e7455?auto=format&fit=crop&w=700&q=80" alt="City night lights" /><span class="price">900 Kc</span><h3>Edit Pack</h3><p>Color correction, crop cleanup and export sets for existing photos.</p><span class="tag">Retouch</span></article>
+      </div>
+    </section>
+
+    <section class="portfolio-strip" id="work">
+      <div class="wrap">
+        <div class="section-head">
+          <h2>Selected work</h2>
+          <p>A wider visual section makes the page feel alive without copying the food-project layout.</p>
+        </div>
+        <div class="gallery">
+          <div class="shot tall"><img src="https://images.unsplash.com/photo-1496747611176-843222e1e57c?auto=format&fit=crop&w=900&q=80" alt="Editorial fashion photo" /></div>
+          <div class="shot"><img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=700&q=80" alt="Fashion model portrait" /></div>
+          <div class="shot"><img src="https://images.unsplash.com/photo-1512496015851-a90fb38ba796?auto=format&fit=crop&w=700&q=80" alt="Makeup portrait" /></div>
+          <div class="shot wide"><img src="https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?auto=format&fit=crop&w=1000&q=80" alt="Professional portrait session" /></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="wrap process" id="process">
+      <div class="process-photo"><img src="https://images.unsplash.com/photo-1520390138845-fd2d229dd553?auto=format&fit=crop&w=1000&q=80" alt="Photographer working with camera" /></div>
+      <article class="process-card">
+        <p class="kicker">Simple process</p>
+        <h2>From idea to final gallery in three steps.</h2>
+        <p>The structure is practical for visitors: they immediately understand what happens before, during and after a shoot.</p>
+        <div class="steps">
+          <div><strong>01</strong><span>Short planning call, mood direction and location choice.</span></div>
+          <div><strong>02</strong><span>Guided shoot with clean lighting and quick previews.</span></div>
+          <div><strong>03</strong><span>Edited gallery delivered in web and print-ready sizes.</span></div>
+        </div>
+      </article>
+    </section>
+
+    <section class="wrap">
+      <div class="booking">
+        <div><p class="kicker">Booking open</p><h2>Send a date and get a shoot plan back.</h2></div>
+        <a class="button" href="mailto:hello@nordiclens.example">hello@nordiclens.example</a>
+      </div>
+    </section>
+
+    <section class="wrap info-grid" id="contact">
+      <article class="card hours">
+        <span class="price">Studio hours</span>
+        <h3>Open for booked sessions</h3>
+        <ul>
+          <li><span>Monday - Thursday</span><strong>10:00 - 18:00</strong></li>
+          <li><span>Friday</span><strong>10:00 - 16:00</strong></li>
+          <li><span>Saturday</span><strong>By booking</strong></li>
+          <li><span>Sunday</span><strong>Closed</strong></li>
+        </ul>
+      </article>
+      <article class="card contact">
+        <span class="price">Fictional studio</span>
+        <h3>Nordic Lens Studio</h3>
+        <p>Atelier Street 12, 760 01 Zlin, Czech Republic</p>
+        <ul>
+          <li><span>Email</span><strong>hello@nordiclens.example</strong></li>
+          <li><span>Phone</span><strong>+420 777 410 224</strong></li>
+        </ul>
+        <div class="map-photo"><img src="https://images.unsplash.com/photo-1494526585095-c41746248156?auto=format&fit=crop&w=1000&q=80" alt="Bright studio interior" /></div>
+      </article>
+    </section>
+  </main>
+
+  <footer class="footer wrap">Nordic Lens Studio | Fictional student website concept</footer>
+</body>
+</html>
